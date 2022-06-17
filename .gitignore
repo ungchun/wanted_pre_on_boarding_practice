@@ -1,36 +1,6 @@
-Last login: Fri Jun 17 17:05:51 on ttys000
-sunghun@gimseonghun-ui-MacBookAir ~ % cd Documents/GitHub 
-sunghun@gimseonghun-ui-MacBookAir GitHub % ls
-CT_CommandLineTool		hongkimDaonProject
-Onestep				onestep_admin
-Onestep_AdminWeb		wanted_PreOnBoarding_practice
-coupleDayProject		wanted_pre_on_boarding_practice
-exchange_rate_calculator
-sunghun@gimseonghun-ui-MacBookAir GitHub % cd wanted_pre_on_boarding_practice 
-sunghun@gimseonghun-ui-MacBookAir wanted_pre_on_boarding_practice % ls
-wanted_pre_on_boarding_practice
-wanted_pre_on_boarding_practice.xcodeproj
-sunghun@gimseonghun-ui-MacBookAir wanted_pre_on_boarding_practice % git branch
-* main
-sunghun@gimseonghun-ui-MacBookAir wanted_pre_on_boarding_practice % vim .gitignore
-sunghun@gimseonghun-ui-MacBookAir wanted_pre_on_boarding_practice % cd ..
-sunghun@gimseonghun-ui-MacBookAir GitHub % ls
-CT_CommandLineTool		hongkimDaonProject
-Onestep				onestep_admin
-Onestep_AdminWeb		wanted_PreOnBoarding_practice
-coupleDayProject		wanted_pre_on_boarding_practice
-exchange_rate_calculator
-sunghun@gimseonghun-ui-MacBookAir GitHub % git wanted_PreOnBoarding_practice 
-git: 'wanted_PreOnBoarding_practice' is not a git command. See 'git --help'.
-sunghun@gimseonghun-ui-MacBookAir GitHub % cd wanted_PreOnBoarding_practice 
-sunghun@gimseonghun-ui-MacBookAir wanted_PreOnBoarding_practice % ls
-README.md				wanted_PreOnBoarding_practice.xcodeproj
-wanted_PreOnBoarding_practice
-sunghun@gimseonghun-ui-MacBookAir wanted_PreOnBoarding_practice % vim .gitignore
 
-
-# Created by https://www.toptal.com/developers/gitignore/api/swift,xcode,cocoapods
-# Edit at https://www.toptal.com/developers/gitignore?templates=swift,xcode,cocoapods
+# Created by https://www.toptal.com/developers/gitignore/api/xcode,swift,cocoapods
+# Edit at https://www.toptal.com/developers/gitignore?templates=xcode,swift,cocoapods
 
 ### CocoaPods ###
 ## CocoaPods GitIgnore Template
@@ -47,5 +17,96 @@ WeatherInfo.plist
 # Xcode
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
-".gitignore" 112L, 2972B
 
+## User settings
+xcuserdata/
+
+## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
+*.xcscmblueprint
+*.xccheckout
+
+## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
+build/
+DerivedData/
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+
+## Obj-C/Swift specific
+*.hmap
+
+## App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Swift Package Manager
+# Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
+# Packages/
+# Package.pins
+# Package.resolved
+# *.xcodeproj
+# Xcode automatically generates this directory with a .xcworkspacedata file and xcuserdata
+# hence it is not needed unless you have added a package configuration file to your project
+# .swiftpm
+
+.build/
+
+# CocoaPods
+# We recommend against adding the Pods directory to your .gitignore. However
+# you should judge for yourself, the pros and cons are mentioned at:
+# https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
+# Pods/
+# Add this line if you want to avoid checking in source code from the Xcode workspace
+# *.xcworkspace
+
+# Carthage
+# Add this line if you want to avoid checking in source code from Carthage dependencies.
+# Carthage/Checkouts
+
+Carthage/Build/
+
+# Accio dependency management
+Dependencies/
+.accio/
+
+# fastlane
+# It is recommended to not store the screenshots in the git repo.
+# Instead, use fastlane to re-generate the screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/#source-control
+
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Code Injection
+# After new code Injection tools there's a generated folder /iOSInjectionProject
+# https://github.com/johnno1962/injectionforxcode
+
+iOSInjectionProject/
+
+### Xcode ###
+
+## Xcode 8 and earlier
+
+### Xcode Patch ###
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcworkspace/contents.xcworkspacedata
+/*.gcno
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+# End of https://www.toptal.com/developers/gitignore/api/xcode,swift,cocoapods

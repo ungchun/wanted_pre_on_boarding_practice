@@ -68,8 +68,7 @@
 		BC67A683285CDB7C001673D9 /* wanted_pre_on_boarding_practice */ = {
 			isa = PBXGroup;
 			children = (
-				BC67A6A5285CDD7E001673D9 /* Extensions.swift */,
-				BC67A6A6285CDD7E001673D9 /* WeatherService.swift */,
+				BC67A6A9285CDE0F001673D9 /* Resource */,
 				BC67A69A285CDBDC001673D9 /* Model */,
 				BC67A699285CDBD8001673D9 /* View */,
 				BC67A698285CDBD0001673D9 /* Controller */,
@@ -107,6 +106,15 @@
 			children = (
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		BC67A6A9285CDE0F001673D9 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				BC67A6A5285CDD7E001673D9 /* Extensions.swift */,
+				BC67A6A6285CDD7E001673D9 /* WeatherService.swift */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
