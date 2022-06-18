@@ -16,10 +16,17 @@ enum NetworkError: Error {
 }
 
 class WeatherService {
+    
+    let cityName: String
+    
+    init(cityName: String){
+        self.cityName = cityName
+    }
+    
     func getWeather(completion: @escaping (Result<WeatherValue, NetworkError>) -> Void) {
         
         // API 호출을 위한 URL
-        let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?appid=\(Bundle.main.WEATHER_API_KEY)&q=seoul")
+        let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?appid=\(Bundle.main.WEATHER_API_KEY)&q=\(cityName)")
         guard let url = url else {
             return completion(.failure(.badUrl))
         }
@@ -43,23 +50,3 @@ class WeatherService {
         }.resume()
     }
 }
-
-struct WeatherValue: Codable {
-    let weather: [Weather]
-    let main: Main
-    let name: String
-}
-
-struct Main: Codable {
-    let temp: Double
-    let temp_min: Double
-    let temp_max: Double
-}
-
-struct Weather: Codable {
-    let id: Int
-    let main: String
-    let description: String
-    let icon: String
-}
-

@@ -18,7 +18,7 @@ extension Bundle {
         
         // 딕셔너리에서 값 찾기
         guard let key = resource["WEATHER_API_KEY"] as? String else {
-            fatalError("plist-file-name.plist에 ACCESS_KEY를 입력해주세요! ")
+            fatalError("WEATHER_API_KEY error")
         }
         return key
     }
