@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         // MARK: 시작(root) 뷰컨 설정
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        let rootViewcontroller = UINavigationController(rootViewController: CustomCollectionViewController())
+        let rootViewcontroller = UINavigationController(rootViewController: MainViewController())
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = rootViewcontroller
         window?.windowScene = windowScene
