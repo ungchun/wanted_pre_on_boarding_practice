@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import UIKit
+
+
 
 
 // 에러 정의
@@ -17,6 +20,7 @@ enum NetworkError: Error {
 
 class WeatherService {
     
+    
     let cityName: String
     
     init(cityName: String){
@@ -26,7 +30,8 @@ class WeatherService {
     func getWeather(completion: @escaping (Result<WeatherValue, NetworkError>) -> Void) {
         
         // API 호출을 위한 URL
-        let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?appid=\(Bundle.main.WEATHER_API_KEY)&q=\(cityName)")
+        let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?appid=\(Bundle.main.WEATHER_API_KEY)&q=\(cityName)&units=metric")
+        
         guard let url = url else {
             return completion(.failure(.badUrl))
         }
@@ -49,4 +54,8 @@ class WeatherService {
             }
         }.resume()
     }
+}
+
+extension UIImageView {
+    
 }

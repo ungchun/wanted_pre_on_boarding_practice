@@ -11,23 +11,27 @@ import UIKit
 let cellID = "Cell"
 
 class MainView: UIView {
-    
+
     var dataSource: [WeatherValue] = []
     
     // MARK: init
     override init(frame: CGRect) {
         super.init(frame: frame)
         for cityName in CityList {
-            WeatherService(cityName: cityName).getWeather { result in
-                switch result {
-                case .success(let weatherValue):
-                    DispatchQueue.main.async {
-                        print("weatherValue.weather \(weatherValue.weather.first!)")
-                        self.dataSource += [weatherValue]
-                        self.collectionView.reloadData()
+            //main thread에서 load할 경우 URL 로딩이 길면 화면이 멈춘다.
+            //이를 방지하기 위해 다른 thread에서 처리함.
+            DispatchQueue.global(qos: .background).async {
+                WeatherService(cityName: cityName).getWeather { result in
+                    switch result {
+                    case .success(let weatherValue):
+                        DispatchQueue.main.async {
+                            print("weatherValue.weather \(weatherValue.weather.first!)")
+                            self.dataSource += [weatherValue]
+                            self.collectionView.reloadData()
+                        }
+                    case .failure(let networkError):
+                        print("\(networkError)")
                     }
-                case .failure(let networkError):
-                    print("\(networkError)")
                 }
             }
         }
@@ -46,9 +50,9 @@ class MainView: UIView {
         return label
     }()
     
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSize(width: UIScreen.main.bounds.width-20, height: 100)
+        flowLayout.itemSize = CGSize(width: UIScreen.main.bounds.width-20, height: 120)
         flowLayout.minimumLineSpacing = 10
         flowLayout.scrollDirection = .vertical
         flowLayout.sectionInset = UIEdgeInsets(top: 40, left: 10, bottom: 10, right: 10)
@@ -61,9 +65,11 @@ class MainView: UIView {
     }()
     
     // MARK: func
-    func setup() {
+    fileprivate func setup() {
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        collectionView.backgroundColor = .black
         
         addSubview(collectionView)
         
@@ -89,7 +95,7 @@ extension MainView: UICollectionViewDataSource {
                 cell.myModel = dataSource[indexPath.item]
             }
         }
-        cell.backgroundColor = .green
+        cell.backgroundColor = .white.withAlphaComponent(0.05)
         return cell
     }
     

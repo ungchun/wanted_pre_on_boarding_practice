@@ -21,6 +21,8 @@
 		BC67A6A8285CDD7E001673D9 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC67A6A6285CDD7E001673D9 /* WeatherService.swift */; };
 		BC902ACB285DAF5900CE6E5C /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC902ACA285DAF5900CE6E5C /* Weather.swift */; };
 		BCA1908F2860303E009C24F7 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA1908E2860303E009C24F7 /* MainView.swift */; };
+		BCA1909128606804009C24F7 /* rain.sks in Resources */ = {isa = PBXBuildFile; fileRef = BCA1909028606804009C24F7 /* rain.sks */; };
+		BCA1909D28606973009C24F7 /* snow.sks in Resources */ = {isa = PBXBuildFile; fileRef = BCA1909C28606973009C24F7 /* snow.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		BC67A6A6285CDD7E001673D9 /* WeatherService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		BC902ACA285DAF5900CE6E5C /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		BCA1908E2860303E009C24F7 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		BCA1909028606804009C24F7 /* rain.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = rain.sks; sourceTree = "<group>"; };
+		BCA1909C28606973009C24F7 /* snow.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = snow.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +76,7 @@
 		BC67A683285CDB7C001673D9 /* wanted_pre_on_boarding_practice */ = {
 			isa = PBXGroup;
 			children = (
+				BCA190A228606C13009C24F7 /* SpriteKit */,
 				BC902ACC285E0F9100CE6E5C /* Demo */,
 				BC67A6A9285CDE0F001673D9 /* Resource */,
 				BC67A69A285CDBDC001673D9 /* Model */,
@@ -129,6 +134,15 @@
 				BC67A69E285CDBE6001673D9 /* ListCollectionViewController.swift */,
 			);
 			path = Demo;
+			sourceTree = "<group>";
+		};
+		BCA190A228606C13009C24F7 /* SpriteKit */ = {
+			isa = PBXGroup;
+			children = (
+				BCA1909028606804009C24F7 /* rain.sks */,
+				BCA1909C28606973009C24F7 /* snow.sks */,
+			);
+			path = SpriteKit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -192,6 +206,8 @@
 				BC67A691285CDB7D001673D9 /* LaunchScreen.storyboard in Resources */,
 				BC67A68E285CDB7D001673D9 /* Assets.xcassets in Resources */,
 				BC67A6A4285CDD6A001673D9 /* WeatherInfo.plist in Resources */,
+				BCA1909D28606973009C24F7 /* snow.sks in Resources */,
+				BCA1909128606804009C24F7 /* rain.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
