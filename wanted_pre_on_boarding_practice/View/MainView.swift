@@ -7,13 +7,26 @@
 
 import Foundation
 import UIKit
+import SpriteKit
+
 
 let cellID = "Cell"
 
 class MainView: UIView {
 
-    var dataSource: [WeatherValue] = []
+    var weatherModelList: [WeatherModel] = []
     
+//    private var sceneView: SKView?
+//    private var snowScene: SnowScene?
+//
+//    lazy var snowView: SKView = {
+//        let view = SKView()
+//        view.backgroundColor = .clear
+//        let scene = SnowScene()
+//        view.presentScene(scene)
+//        return view
+//    }()
+
     // MARK: init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,8 +38,7 @@ class MainView: UIView {
                     switch result {
                     case .success(let weatherValue):
                         DispatchQueue.main.async {
-                            print("weatherValue.weather \(weatherValue.weather.first!)")
-                            self.dataSource += [weatherValue]
+                            self.weatherModelList += [weatherValue]
                             self.collectionView.reloadData()
                         }
                     case .failure(let networkError):
@@ -79,7 +91,7 @@ class MainView: UIView {
             collectionView.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor),
             collectionView.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor)
         ])
-        collectionView.register(DemoCell.self, forCellWithReuseIdentifier: cellID)
+        collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: cellID)
     }
 }
 
@@ -90,12 +102,26 @@ extension MainView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
-        if self.dataSource.count > indexPath.item {
-            if let cell = cell as? DemoCell {
-                cell.myModel = dataSource[indexPath.item]
+        cell.backgroundColor = .white
+        if self.weatherModelList.count > indexPath.item {
+            if let cell = cell as? MainCollectionViewCell {
+                cell.weatherModel = weatherModelList[indexPath.item]
+            }
+            if weatherModelList[indexPath.item].weather.first!.main.contains("Clouds") {
+                cell.backgroundView = UIImageView(image: UIImage(named: "cloud.jpg"))
+                
+                // 이렇게 쓰면 cell 에 눈 오긴 옴 -> 근데 스크롤할때 마다 이상해지고 전부 다 적용은 안됨 -> 처리해보기
+//                cell.addSubview(snowView)
+//                snowView.translatesAutoresizingMaskIntoConstraints = false
+//                snowView.topAnchor.constraint(equalTo: cell.topAnchor).isActive = true
+//                snowView.bottomAnchor.constraint(equalTo: cell.bottomAnchor).isActive = true
+//                snowView.leftAnchor.constraint(equalTo: cell.leftAnchor).isActive = true
+//                snowView.rightAnchor.constraint(equalTo: cell.rightAnchor).isActive = true
+            } else {
+    //            dataSource[indexPath.item].weather[0].main.contains("Clear")
+                cell.backgroundView = UIImageView(image: UIImage(named: "sun.jpg"))
             }
         }
-        cell.backgroundColor = .white.withAlphaComponent(0.05)
         return cell
     }
     

@@ -8,9 +8,6 @@
 import Foundation
 import UIKit
 
-
-
-
 // 에러 정의
 enum NetworkError: Error {
     case badUrl
@@ -20,14 +17,13 @@ enum NetworkError: Error {
 
 class WeatherService {
     
-    
     let cityName: String
     
     init(cityName: String){
         self.cityName = cityName
     }
     
-    func getWeather(completion: @escaping (Result<WeatherValue, NetworkError>) -> Void) {
+    func getWeather(completion: @escaping (Result<WeatherModel, NetworkError>) -> Void) {
         
         // API 호출을 위한 URL
         let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?appid=\(Bundle.main.WEATHER_API_KEY)&q=\(cityName)&units=metric")
@@ -42,7 +38,7 @@ class WeatherService {
                 return completion(.failure(.noData))
             }
             
-            let weatherResponse = try? JSONDecoder().decode(WeatherValue.self, from: data)
+            let weatherResponse = try? JSONDecoder().decode(WeatherModel.self, from: data)
             
             // 성공
             if let weatherResponse = weatherResponse {

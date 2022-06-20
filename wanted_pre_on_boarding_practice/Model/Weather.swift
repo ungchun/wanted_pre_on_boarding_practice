@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WeatherValue: Codable {
+struct WeatherModel: Codable {
     var weather: [Weather]
     let main: Main
     let name: String
@@ -27,7 +27,7 @@ struct Weather: Codable {
     let icon: String
 }
 
-// API url 에 넣는 값
+// API url 에 넣는 city 값
 let CityList = [
     "Gongju", "Gwangju", "Gumi", "Gunsan", "Daegu", "Daejeon",
     "Mokpo", "Busan", "Seosan", "Seoul", "Sokcho", "suwon", "Iksan", "Suncheon",
