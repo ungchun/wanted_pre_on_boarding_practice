@@ -15,6 +15,7 @@ let cellID = "Cell"
 class MainView: UIView {
 
     var weatherModelList: [WeatherModel] = []
+    var cellTapAction: ((_ weatherModel: WeatherModel) -> Void)?
     
 //    private var sceneView: SKView?
 //    private var snowScene: SnowScene?
@@ -93,6 +94,10 @@ class MainView: UIView {
         ])
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: cellID)
     }
+    
+    func cellTap(_ weatherModel: WeatherModel) {
+        cellTapAction!(weatherModel)
+    }
 }
 
 extension MainView: UICollectionViewDataSource {
@@ -123,6 +128,14 @@ extension MainView: UICollectionViewDataSource {
             }
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("click click \(indexPath.item)")
+        print("weatherModelList[indexPath.item] \(weatherModelList[indexPath.item])")
+        
+//        let detailVC = DetailViewController()
+        cellTap(weatherModelList[indexPath.item])
     }
     
 }

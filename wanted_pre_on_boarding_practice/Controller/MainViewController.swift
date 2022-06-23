@@ -11,23 +11,23 @@ import UIKit
 import SpriteKit
 
 class SnowScene: SKScene {
-
+    
     override func didMove(to view: SKView) {
         setScene(view)
         setSnowNode()
     }
-
+    
     override func didApplyConstraints() {
         guard let view = view else { return }
         scene?.size = view.frame.size
     }
-
+    
     private func setScene(_ view: SKView) {
         backgroundColor = .clear
         scene?.anchorPoint = CGPoint(x: 0.5, y: 1)
         scene?.scaleMode = .aspectFill
     }
-
+    
     private func setSnowNode() {
         guard let snowNode = SKEmitterNode(fileNamed: "snow") else { return }
         snowNode.position = .zero
@@ -53,10 +53,15 @@ class SnowScene: SKScene {
 //        snowView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
 //        snowView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 
-
-class MainViewController: UIViewController {
+class MainViewController: UIViewController  {
+    
+    var sendWeatherModelDelegate: SendWeatherModelDelegate?
     
     private var mainView: MainView!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationItem.largeTitleDisplayMode = .always
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,16 +76,26 @@ class MainViewController: UIViewController {
         appearance.backgroundColor = .black
         navigationItem.standardAppearance = appearance
         navigationItem.scrollEdgeAppearance = appearance
-        
         self.navigationItem.largeTitleDisplayMode = .always
         self.navigationController?.navigationBar.prefersLargeTitles = true
-      
+        
     }
     
     // MARK: func
     fileprivate func setupView() {
         let mainView = MainView(frame: self.view.frame)
         self.mainView = mainView
+        mainView.cellTapAction = navigationDetailView(_:)
         self.view.addSubview(mainView)
+        
+    }
+    
+    fileprivate func navigationDetailView(_ weatherModel: WeatherModel) {
+        let detailVC = DetailViewController()
+        detailVC.sendModel(weatherModel: weatherModel)
+        print("sender \(weatherModel)")
+        self.navigationController?.pushViewController(detailVC, animated: true)
+        
     }
 }
+

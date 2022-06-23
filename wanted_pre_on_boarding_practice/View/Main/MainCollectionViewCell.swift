@@ -19,7 +19,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     let activityIndicatorView =  UIActivityIndicatorView(style: .medium) // API 값 불러오는 동안 보이는 loadingView
     
     var weatherModel: WeatherModel? {
-        didSet { bind() } // like init ?
+        didSet { bind() } // API로 들어오는 weatherModel의 갱신된 값을 갱신될때마다 cell에 보여줘야함 -> didset, willset
     }
     
     fileprivate func bind() {
@@ -33,7 +33,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         
         guard let temperatureValue = weatherModel?.main.temp else { return }
         let intTemperatureValue = Int(temperatureValue)
-        temperature.text = "\(String(describing: intTemperatureValue)) ℃"
+        temperature.text = "\(String(describing: intTemperatureValue))°"
         
         guard let imgStringValue = weatherModel?.weather.first?.icon else { return }
         let url = "https://openweathermap.org/img/wn/\(imgStringValue).png"

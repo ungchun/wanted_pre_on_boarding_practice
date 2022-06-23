@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC05FFFA286406D30048570F /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC05FFF9286406D30048570F /* DetailViewController.swift */; };
+		BC05FFFE286450DA0048570F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC05FFFD286450DA0048570F /* DetailView.swift */; };
 		BC67A685285CDB7C001673D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC67A684285CDB7C001673D9 /* AppDelegate.swift */; };
 		BC67A687285CDB7C001673D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC67A686285CDB7C001673D9 /* SceneDelegate.swift */; };
 		BC67A689285CDB7C001673D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC67A688285CDB7C001673D9 /* ViewController.swift */; };
@@ -26,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BC05FFF9286406D30048570F /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		BC05FFFD286450DA0048570F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		BC67A681285CDB7C001673D9 /* wanted_pre_on_boarding_practice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wanted_pre_on_boarding_practice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC67A684285CDB7C001673D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BC67A686285CDB7C001673D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -57,6 +61,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC05FFFB286450B60048570F /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				BC05FFFD286450DA0048570F /* DetailView.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		BC05FFFC286450BA0048570F /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				BCA1908E2860303E009C24F7 /* MainView.swift */,
+				BC67A69D285CDBE5001673D9 /* MainCollectionViewCell.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		BC67A678285CDB7C001673D9 = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				BC67A69C285CDBE5001673D9 /* MainViewController.swift */,
+				BC05FFF9286406D30048570F /* DetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -103,8 +125,8 @@
 		BC67A699285CDBD8001673D9 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				BCA1908E2860303E009C24F7 /* MainView.swift */,
-				BC67A69D285CDBE5001673D9 /* MainCollectionViewCell.swift */,
+				BC05FFFC286450BA0048570F /* Main */,
+				BC05FFFB286450B60048570F /* Detail */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -221,9 +243,11 @@
 				BC67A689285CDB7C001673D9 /* ViewController.swift in Sources */,
 				BC67A6A8285CDD7E001673D9 /* WeatherService.swift in Sources */,
 				BC67A685285CDB7C001673D9 /* AppDelegate.swift in Sources */,
+				BC05FFFA286406D30048570F /* DetailViewController.swift in Sources */,
 				BC67A6A1285CDBE6001673D9 /* MainCollectionViewCell.swift in Sources */,
 				BC902ACB285DAF5900CE6E5C /* Weather.swift in Sources */,
 				BC67A6A7285CDD7E001673D9 /* Extensions.swift in Sources */,
+				BC05FFFE286450DA0048570F /* DetailView.swift in Sources */,
 				BC67A6A2285CDBE6001673D9 /* ListCollectionViewController.swift in Sources */,
 				BCA1908F2860303E009C24F7 /* MainView.swift in Sources */,
 				BC67A6A0285CDBE6001673D9 /* MainViewController.swift in Sources */,
