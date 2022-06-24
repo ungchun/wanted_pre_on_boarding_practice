@@ -384,12 +384,6 @@ class DetailView: UIView {
             let imageView = bringBackgroundImage("Clouds")
             self.addSubview(imageView)
             self.sendSubviewToBack(imageView)
-            self.addSubview(snowView)
-            snowView.translatesAutoresizingMaskIntoConstraints = false
-            snowView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-            snowView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-            snowView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-            snowView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         }
         // 눈
         else if detailCityWeatherModel!.weather.first!.main.contains("Snow") {
