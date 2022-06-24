@@ -7,17 +7,35 @@
 
 import Foundation
 import UIKit
+import SpriteKit
 
 class DetailView: UIView {
     
     var detailCityWeatherModel: WeatherModel?
     
+    lazy var snowView: SKView = {
+        let view = SKView()
+        view.backgroundColor = .clear
+        let scene = SnowScene()
+        view.presentScene(scene)
+        return view
+    }()
+    
+    lazy var rainView: SKView = {
+        let view = SKView()
+        view.backgroundColor = .clear
+        let scene = RainScene()
+        view.presentScene(scene)
+        return view
+    }()
+
     // MARK: UI
     // 도시이름, 현재온도, 설명, 최고, 최저기온
     private let koreaCityNameLabel: UILabel = {
         let label = UILabel()
         label.text = "중구"
         label.font = .systemFont(ofSize: 40)
+        label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
@@ -25,6 +43,7 @@ class DetailView: UIView {
     private let tempLabel: UILabel = {
         let label = UILabel()
         label.text = "30"
+        label.textColor = .white
         label.font = .systemFont(ofSize: 80)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultLow, for: .vertical)
@@ -33,6 +52,7 @@ class DetailView: UIView {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.text = "대체로 흐림"
+        label.textColor = .white
         label.font = .systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
@@ -41,6 +61,7 @@ class DetailView: UIView {
     private let temp_maxLabel: UILabel = {
         let label = UILabel()
         label.text = "최고"
+        label.textColor = .white
         label.font = .systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -48,6 +69,7 @@ class DetailView: UIView {
     private let temp_minLabel: UILabel = {
         let label = UILabel()
         label.text = "최저"
+        label.textColor = .white
         label.font = .systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -79,7 +101,9 @@ class DetailView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "아이콘"
+        label.font = .systemFont(ofSize: 18)
         label.textAlignment = .left
+        label.textColor = .white
         return label
     }()
     private let iconValueIcon: UIImageView = {
@@ -103,15 +127,18 @@ class DetailView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "체감기온"
+        label.font = .systemFont(ofSize: 18)
         label.textAlignment = .left
+        label.textColor = .white
         return label
     }()
     private let feels_likeValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 25)
+        label.font = .systemFont(ofSize: 35)
         label.text = "체감기온"
         label.textAlignment = .right
+        label.textColor = .white
         return label
     }()
     private let feels_likeStackView: UIStackView = {
@@ -129,15 +156,18 @@ class DetailView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "현재습도"
+        label.font = .systemFont(ofSize: 18)
         label.textAlignment = .left
+        label.textColor = .white
         return label
     }()
     private let humidityValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "현재습도"
-        label.font = .systemFont(ofSize: 25)
+        label.font = .systemFont(ofSize: 35)
         label.textAlignment = .right
+        label.textColor = .white
         return label
     }()
     private let humidityStackView: UIStackView = {
@@ -155,15 +185,18 @@ class DetailView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "기압"
+        label.font = .systemFont(ofSize: 18)
         label.textAlignment = .left
+        label.textColor = .white
         return label
     }()
     private let pressureValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "기압"
-        label.font = .systemFont(ofSize: 25)
+        label.font = .systemFont(ofSize: 35)
         label.textAlignment = .right
+        label.textColor = .white
         return label
     }()
     private let pressureStackView: UIStackView = {
@@ -181,15 +214,18 @@ class DetailView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "풍속"
+        label.font = .systemFont(ofSize: 18)
         label.textAlignment = .left
+        label.textColor = .white
         return label
     }()
     private let speedValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "풍속"
-        label.font = .systemFont(ofSize: 25)
+        label.font = .systemFont(ofSize: 35)
         label.textAlignment = .right
+        label.textColor = .white
         return label
     }()
     private let speedStackView: UIStackView = {
@@ -207,15 +243,18 @@ class DetailView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "시정"
+        label.font = .systemFont(ofSize: 18)
         label.textAlignment = .left
+        label.textColor = .white
         return label
     }()
     private let visibilityValueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "시정"
-        label.font = .systemFont(ofSize: 25)
+        label.font = .systemFont(ofSize: 35)
         label.textAlignment = .right
+        label.textColor = .white
         return label
     }()
     private let visibilityStackView: UIStackView = {
@@ -274,6 +313,7 @@ class DetailView: UIView {
         super.init(frame: frame)
         self.detailCityWeatherModel = detailCityWeatherModel // 도시 정보를 담은 model
         
+        setBackgroundView()
         setCityData()
         setAddArrangedSubview()
         
@@ -318,7 +358,67 @@ class DetailView: UIView {
     }
     
     // MARK: func
+    func bringBackgroundImage(_ main: String) -> UIImageView {
+        let background: UIImage
+        if main == "Clear" {
+            background = UIImage(named: "sun.jpg")!
+        } else {
+            background = UIImage(named: "cloud.jpg")!
+        }
+        
+        var imageView : UIImageView!
+        imageView = UIImageView(frame: self.bounds)
+        imageView.contentMode =  UIView.ContentMode.scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.image = background
+        imageView.center = self.center
+        return imageView
+    }
+    
+    func setBackgroundView() {
+        // 흐림
+        if detailCityWeatherModel!.weather.first!.main.contains("Clouds") {
+            // image 를 backgroud 에 세팅하기
+            let imageView = bringBackgroundImage("Clouds")
+            self.addSubview(imageView)
+            self.sendSubviewToBack(imageView)
+        }
+        // 눈
+        else if detailCityWeatherModel!.weather.first!.main.contains("Snow") {
+            let imageView = bringBackgroundImage("Clouds")
+            self.addSubview(imageView)
+            self.sendSubviewToBack(imageView)
+            
+            self.addSubview(snowView)
+            snowView.translatesAutoresizingMaskIntoConstraints = false
+            snowView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+            snowView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+            snowView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+            snowView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        }
+        // 비 or 천둥번개
+        else if detailCityWeatherModel!.weather.first!.main.contains("Rain") || detailCityWeatherModel!.weather.first!.main.contains("thunderstorm") {
+            let imageView = bringBackgroundImage("Clouds")
+            self.addSubview(imageView)
+            self.sendSubviewToBack(imageView)
+
+            self.addSubview(rainView)
+            rainView.translatesAutoresizingMaskIntoConstraints = false
+            rainView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+            rainView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+            rainView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+            rainView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        }
+        // 그 외
+        else {
+            let imageView = bringBackgroundImage("Clear")
+            self.addSubview(imageView)
+            self.sendSubviewToBack(imageView)
+        }
+    }
+    
     func setCityData() {
+        
         // 도시이름
         koreaCityNameLabel.text = String(describing: CityKoreaListDic.filter {$0.keys.contains(detailCityWeatherModel!.name)}.first!.first!.value)
         
@@ -350,7 +450,7 @@ class DetailView: UIView {
         humidityValueLabel.text = "\(String(describing: intHumidityValue))%"
         
         // 기압
-        let intPressureValue = Int(detailCityWeatherModel!.main.pressure)
+        let intPressureValue = Int(detailCityWeatherModel!.main.pressure/10)
         pressureValueLabel.text = "\(String(describing: intPressureValue))"
         
         // 풍속
@@ -358,7 +458,7 @@ class DetailView: UIView {
         speedValueLabel.text = "\(String(describing: intSpeedValue))"
         
         // 시정
-        let intVisibilityValue = Int(detailCityWeatherModel!.visibility)
+        let intVisibilityValue = Int(detailCityWeatherModel!.visibility/100)
         visibilityValueLabel.text = "\(String(describing: intVisibilityValue))"
     }
     

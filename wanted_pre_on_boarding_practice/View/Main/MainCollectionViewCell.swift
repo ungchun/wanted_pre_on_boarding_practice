@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SpriteKit
 
 class ImageCacheManager {
     
@@ -14,7 +15,24 @@ class ImageCacheManager {
     private init() {}
 }
 
+
 class MainCollectionViewCell: UICollectionViewCell {
+    
+    lazy var snowView: SKView = {
+        let view = SKView()
+        view.backgroundColor = .clear
+        let scene = SnowScene()
+        view.presentScene(scene)
+        return view
+    }()
+    
+    lazy var rainView: SKView = {
+        let view = SKView()
+        view.backgroundColor = .clear
+        let scene = RainScene()
+        view.presentScene(scene)
+        return view
+    }()
     
     let activityIndicatorView =  UIActivityIndicatorView(style: .medium) // API 값 불러오는 동안 보이는 loadingView
     
@@ -37,14 +55,40 @@ class MainCollectionViewCell: UICollectionViewCell {
         
         guard let imgStringValue = weatherModel?.weather.first?.icon else { return }
         let url = "https://openweathermap.org/img/wn/\(imgStringValue).png"
-        let cacheKey = String(describing: url) // 캐시에 사용될 Key 값
-        if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey as NSString) { // 해당 Key 에 캐시이미지가 저장되어 있으면 이미지를 사용
-            print("이미지 캐시 있음")
+        
+        iconImage.setImageUrl(url) // 캐시 이미지 set
+        
+        if iconImage.image != nil {
+            // 흐림
+            if weatherModel!.weather.first!.main.contains("Clouds") {
+                self.backgroundView = UIImageView(image: UIImage(named: "cloud.jpg"))
+            }
+            // 눈
+            else if weatherModel!.weather.first!.main.contains("Snow"){
+                self.backgroundView = UIImageView(image: UIImage(named: "cloud.jpg"))
+                self.backgroundView!.addSubview(snowView)
+                snowView.translatesAutoresizingMaskIntoConstraints = false
+                snowView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+                snowView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+                snowView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+                snowView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+            }
+            // 비 or 천둥번개
+            else if weatherModel!.weather.first!.main.contains("Rain") ||  weatherModel!.weather.first!.main.contains("thunderstorm"){
+                self.backgroundView = UIImageView(image: UIImage(named: "cloud.jpg"))
+                self.backgroundView!.addSubview(rainView)
+                rainView.translatesAutoresizingMaskIntoConstraints = false
+                rainView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+                rainView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+                rainView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+                rainView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+            }
+            // 그 외
+            else {
+                self.backgroundView = UIImageView(image: UIImage(named: "sun.jpg"))
+            }
+            
             stackView.removeArrangedSubview(activityIndicatorView) // loadingView remove
-            
-            // 불러온값들 set
-            iconImage.image = cachedImage
-            
             stackView.addArrangedSubview(iconImage)
             stackView.addArrangedSubview(humidity)
             stackView.addArrangedSubview(temperature)
@@ -57,32 +101,6 @@ class MainCollectionViewCell: UICollectionViewCell {
             humidity.rightAnchor.constraint(equalTo: self.temperature.leftAnchor, constant: -20).isActive = true
             
             activityIndicatorView.stopAnimating() // activityIndicatorView stopAnimating
-            return
-        } else {
-            print("이미지 캐시 없음")
-            let url = NSURL(string: "https://openweathermap.org/img/wn/\(imgStringValue).png")
-            let urlData = NSData(contentsOf: url! as URL)
-            if urlData != nil {
-                stackView.removeArrangedSubview(activityIndicatorView) // loadingView remove
-                
-                ImageCacheManager.shared.setObject(UIImage(data: urlData! as Data)!, forKey: cacheKey as NSString) // 다운로드된 이미지를 캐시에 저장
-                
-                // 불러온값들 set
-                iconImage.image = UIImage(data: urlData! as Data)
-                
-                stackView.addArrangedSubview(iconImage)
-                stackView.addArrangedSubview(humidity)
-                stackView.addArrangedSubview(temperature)
-                
-                cityStackView.addArrangedSubview(koreaCityName)
-                cityStackView.addArrangedSubview(cityName)
-                
-                koreaCityName.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 30).isActive = true
-                cityName.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 30).isActive = true
-                humidity.rightAnchor.constraint(equalTo: self.temperature.leftAnchor, constant: -20).isActive = true
-                
-                activityIndicatorView.stopAnimating() // activityIndicatorView stopAnimating
-            }
         }
     }
     
@@ -177,5 +195,5 @@ class MainCollectionViewCell: UICollectionViewCell {
         
         return view
     }()
-
+    
 }

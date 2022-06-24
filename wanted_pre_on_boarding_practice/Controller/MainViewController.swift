@@ -7,34 +7,6 @@
 
 import UIKit
 
-// MARK: SpriteKit
-import SpriteKit
-
-class SnowScene: SKScene {
-    
-    override func didMove(to view: SKView) {
-        setScene(view)
-        setSnowNode()
-    }
-    
-    override func didApplyConstraints() {
-        guard let view = view else { return }
-        scene?.size = view.frame.size
-    }
-    
-    private func setScene(_ view: SKView) {
-        backgroundColor = .clear
-        scene?.anchorPoint = CGPoint(x: 0.5, y: 1)
-        scene?.scaleMode = .aspectFill
-    }
-    
-    private func setSnowNode() {
-        guard let snowNode = SKEmitterNode(fileNamed: "snow") else { return }
-        snowNode.position = .zero
-        scene?.addChild(snowNode)
-    }
-}
-
 //private var sceneView: SKView?
 //private var snowScene: SnowScene?
 
@@ -59,6 +31,7 @@ class MainViewController: UIViewController  {
     
     private var mainView: MainView!
     
+    // Main 에서는 navigationBar Title 이 large 세팅
     override func viewWillAppear(_ animated: Bool) {
         self.navigationItem.largeTitleDisplayMode = .always
     }
@@ -68,16 +41,7 @@ class MainViewController: UIViewController  {
         view.backgroundColor = .black
         
         setupView()
-        
-        self.title = "전국 날씨"
-        let appearance = UINavigationBarAppearance(idiom: .phone)
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        appearance.backgroundColor = .black
-        navigationItem.standardAppearance = appearance
-        navigationItem.scrollEdgeAppearance = appearance
-        self.navigationItem.largeTitleDisplayMode = .always
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        setNavigationBarTitle()
         
     }
     
@@ -87,15 +51,24 @@ class MainViewController: UIViewController  {
         self.mainView = mainView
         mainView.cellTapAction = navigationDetailView(_:)
         self.view.addSubview(mainView)
-        
+    }
+    
+    fileprivate func setNavigationBarTitle() {
+        self.title = "전국 날씨"
+        let appearance = UINavigationBarAppearance(idiom: .phone)
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.backgroundColor = .black
+        navigationItem.standardAppearance = appearance
+        navigationItem.scrollEdgeAppearance = appearance
+        self.navigationItem.largeTitleDisplayMode = .always
+        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     fileprivate func navigationDetailView(_ weatherModel: WeatherModel) {
         let detailVC = DetailViewController()
-        detailVC.sendModel(weatherModel: weatherModel)
-        print("sender \(weatherModel)")
+        detailVC.sendModel(weatherModel: weatherModel) // 델리게이트로 도시정보 전달
         self.navigationController?.pushViewController(detailVC, animated: true)
-        
     }
 }
 

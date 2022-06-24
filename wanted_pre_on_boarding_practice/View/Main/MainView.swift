@@ -9,24 +9,20 @@ import Foundation
 import UIKit
 import SpriteKit
 
-
 let cellID = "Cell"
 
 class MainView: UIView {
-
+    
+    lazy var snowView: SKView = {
+        let view = SKView()
+        view.backgroundColor = .clear
+        let scene = SnowScene()
+        view.presentScene(scene)
+        return view
+    }()
+    
     var weatherModelList: [WeatherModel] = []
     var cellTapAction: ((_ weatherModel: WeatherModel) -> Void)?
-    
-//    private var sceneView: SKView?
-//    private var snowScene: SnowScene?
-//
-//    lazy var snowView: SKView = {
-//        let view = SKView()
-//        view.backgroundColor = .clear
-//        let scene = SnowScene()
-//        view.presentScene(scene)
-//        return view
-//    }()
 
     // MARK: init
     override init(frame: CGRect) {
@@ -56,13 +52,6 @@ class MainView: UIView {
     }
     
     // MARK: UI
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "전국 날씨"
-        return label
-    }()
-    
     private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSize(width: UIScreen.main.bounds.width-20, height: 120)
@@ -107,34 +96,30 @@ extension MainView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
-        cell.backgroundColor = .white
+        cell.backgroundColor = UIColor.white.withAlphaComponent(0.1)
         if self.weatherModelList.count > indexPath.item {
             if let cell = cell as? MainCollectionViewCell {
                 cell.weatherModel = weatherModelList[indexPath.item]
             }
-            if weatherModelList[indexPath.item].weather.first!.main.contains("Clouds") {
-                cell.backgroundView = UIImageView(image: UIImage(named: "cloud.jpg"))
-                
-                // 이렇게 쓰면 cell 에 눈 오긴 옴 -> 근데 스크롤할때 마다 이상해지고 전부 다 적용은 안됨 -> 처리해보기
+//            if weatherModelList[indexPath.item].weather.first!.main.contains("Clouds") {
+//                // 이렇게 쓰면 cell 에 눈 오긴 옴 -> 근데 스크롤할때 마다 이상해지고 전부 다 적용은 안됨 -> 처리해보기
 //                cell.addSubview(snowView)
 //                snowView.translatesAutoresizingMaskIntoConstraints = false
 //                snowView.topAnchor.constraint(equalTo: cell.topAnchor).isActive = true
 //                snowView.bottomAnchor.constraint(equalTo: cell.bottomAnchor).isActive = true
 //                snowView.leftAnchor.constraint(equalTo: cell.leftAnchor).isActive = true
 //                snowView.rightAnchor.constraint(equalTo: cell.rightAnchor).isActive = true
-            } else {
-    //            dataSource[indexPath.item].weather[0].main.contains("Clear")
-                cell.backgroundView = UIImageView(image: UIImage(named: "sun.jpg"))
-            }
+//                cell.backgroundView = UIImageView(image: UIImage(named: "cloud.jpg"))
+//            } else {
+//    //            dataSource[indexPath.item].weather[0].main.contains("Clear")
+//                cell.backgroundView = UIImageView(image: UIImage(named: "sun.jpg"))
+//            }
         }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("click click \(indexPath.item)")
-        print("weatherModelList[indexPath.item] \(weatherModelList[indexPath.item])")
-        
-//        let detailVC = DetailViewController()
+        // cell click
         cellTap(weatherModelList[indexPath.item])
     }
     
