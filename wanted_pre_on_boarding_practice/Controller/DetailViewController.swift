@@ -39,6 +39,6 @@ class DetailViewController: UIViewController {
         let detailView = DetailView(frame: self.view.frame, detailCityWeatherModel: self.detailCityWeatherModel!)
         self.detailView = detailView
         self.view.addSubview(detailView)
- 
+        
     }
 }

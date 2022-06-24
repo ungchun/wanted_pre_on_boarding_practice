@@ -12,44 +12,9 @@ class DetailView: UIView {
     
     var detailCityWeatherModel: WeatherModel?
     
-    func setCityData() {
-        label_1.text = String(describing: CityKoreaListDic.filter {$0.keys.contains(detailCityWeatherModel!.name)}.first!.first!.value)
-        
-        let intTemperatureValue = Int(detailCityWeatherModel!.main.temp)
-        label_2.text = "\(String(describing: intTemperatureValue))°"
-        
-        label_3.text = detailCityWeatherModel?.weather[0].description
-        
-        let intTemperatureMaxValue = Int(detailCityWeatherModel!.main.temp_max)
-        label_4.text = "최고:\(String(describing: intTemperatureMaxValue))°"
-        let intTemperatureMinValue = Int(detailCityWeatherModel!.main.temp_min)
-        label_5.text = "최저:\(String(describing: intTemperatureMinValue))°"
-        
-        let intFeels_likeValue = Int(detailCityWeatherModel!.main.feels_like)
-        feels_likeValueLabel.text = "\(String(describing: intFeels_likeValue))°"
-        
-        let intHumidityValue = Int(detailCityWeatherModel!.main.humidity)
-        humidityValueLabel.text = "\(String(describing: intHumidityValue))%"
-        
-        let intPressureValue = Int(detailCityWeatherModel!.main.pressure)
-        pressureValueLabel.text = "\(String(describing: intPressureValue))"
-        
-        let intSpeedValue = Int(detailCityWeatherModel!.wind.speed)
-        speedValueLabel.text = "\(String(describing: intSpeedValue))"
-        
-        let intVisibilityValue = Int(detailCityWeatherModel!.visibility)
-        visibilityValueLabel.text = "\(String(describing: intVisibilityValue))"
-        
-        
-        
-        let url = "https://openweathermap.org/img/wn/\(detailCityWeatherModel!.weather[0].icon).png"
-        let cacheKey = String(describing: url) // 캐시에 사용될 Key 값
-        let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey as NSString)
-        iconValueIcon.image = cachedImage
-        
-    }
-    
-    private let label_1: UILabel = {
+    // MARK: UI
+    // 도시이름, 현재온도, 설명, 최고, 최저기온
+    private let koreaCityNameLabel: UILabel = {
         let label = UILabel()
         label.text = "중구"
         label.font = .systemFont(ofSize: 40)
@@ -57,7 +22,7 @@ class DetailView: UIView {
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
-    private let label_2: UILabel = {
+    private let tempLabel: UILabel = {
         let label = UILabel()
         label.text = "30"
         label.font = .systemFont(ofSize: 80)
@@ -65,7 +30,7 @@ class DetailView: UIView {
         label.setContentHuggingPriority(.defaultLow, for: .vertical)
         return label
     }()
-    private let label_3: UILabel = {
+    private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.text = "대체로 흐림"
         label.font = .systemFont(ofSize: 20)
@@ -73,14 +38,14 @@ class DetailView: UIView {
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
-    private let label_4: UILabel = {
+    private let temp_maxLabel: UILabel = {
         let label = UILabel()
         label.text = "최고"
         label.font = .systemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    private let label_5: UILabel = {
+    private let temp_minLabel: UILabel = {
         let label = UILabel()
         label.text = "최저"
         label.font = .systemFont(ofSize: 20)
@@ -88,16 +53,17 @@ class DetailView: UIView {
         return label
     }()
     
+    // 최고 + 최저기온
     private let tempMinMaxStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .center
         stackView.axis = .horizontal
         stackView.spacing = 10
-        stackView.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return stackView
     }()
     
+    // 위에 정보 전부 다 합친 도시 정보
     private let topTextStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -105,75 +71,22 @@ class DetailView: UIView {
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.axis = .vertical
-        stackView.setContentHuggingPriority(.defaultLow, for: .vertical)
-        stackView.backgroundColor = .green
         return stackView
     }()
-    
-    
-    private let anotherFirstLineDetailStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = 20
-        stackView.distribution = .fillEqually
-        return stackView
-    }()
-    
-    private let anotherSecondLineDetailStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.spacing = 20
-        stackView.distribution = .fillEqually
-        return stackView
-    }()
-    
-    private let anotherLineDetailStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-//        stackView.backgroundColor = .gray
-        stackView.spacing = 10
-        stackView.distribution = .fill
-        stackView.backgroundColor = .purple
-        stackView.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        return stackView
-    }()
-    
-    private let entireStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.distribution = .fill
-        stackView.spacing = 20
-        stackView.axis = .vertical
-        return stackView
-    }()
-    
 
+    // 아이콘 title + value + 스택 뷰
     private let iconTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "아이콘"
         label.textAlignment = .left
-        
         return label
     }()
-//    private let iconValueLabel: UILabel = {
-//        let label = UILabel()
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        label.text = "아이콘"
-//        label.font = .systemFont(ofSize: 25)
-//        return label
-//    }()
-    
     private let iconValueIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        
         return imageView
     }()
-    
     private let iconStackView: UIStackView = {
        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -185,6 +98,7 @@ class DetailView: UIView {
         return stackView
     }()
     
+    // 체감기온 title + value + 스택 뷰
     private let feels_likeTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -210,6 +124,7 @@ class DetailView: UIView {
         return stackView
     }()
     
+    // 현재습도 title + value + 스택 뷰
     private let humidityTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -235,6 +150,7 @@ class DetailView: UIView {
         return stackView
     }()
     
+    // 기압 title + value + 스택 뷰
     private let pressureTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -260,6 +176,7 @@ class DetailView: UIView {
         return stackView
     }()
     
+    // 풍속 title + value + 스택 뷰
     private let speedTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -285,6 +202,7 @@ class DetailView: UIView {
         return stackView
     }()
     
+    // 시정 title + value + 스택 뷰
     private let visibilityTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -310,126 +228,84 @@ class DetailView: UIView {
         return stackView
     }()
     
-
+    // 아이콘 스택뷰 + 체감기온 스택뷰 + 현재습도 스택뷰
+    private let anotherFirstLineDetailStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = 20
+        stackView.distribution = .fillEqually
+        return stackView
+    }()
     
+    // 기압 스택뷰 + 풍속 스택뷰 + 시정 스택뷰
+    private let anotherSecondLineDetailStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = 20
+        stackView.distribution = .fillEqually
+        return stackView
+    }()
+    
+    // anotherFirstLineDetailStackView + anotherSecondLineDetailStackView
+    private let anotherLineDetailStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        stackView.distribution = .fill
+        stackView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        return stackView
+    }()
+    
+    // 도시정보 + anotherLineDetailStackView
+    private let entireStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .fill
+        stackView.spacing = 60
+        stackView.axis = .vertical
+        return stackView
+    }()
+
+    // MARK: init
     required init(frame: CGRect, detailCityWeatherModel: WeatherModel) {
         super.init(frame: frame)
-        
-        self.detailCityWeatherModel = detailCityWeatherModel
+        self.detailCityWeatherModel = detailCityWeatherModel // 도시 정보를 담은 model
         
         setCityData()
+        setAddArrangedSubview()
         
         self.addSubview(entireStackView)
-//        self.addSubview(topTextStackView)
-//        self.addSubview(anotherLineDetailStackView)
-        
-        iconStackView.addArrangedSubview(iconTitleLabel)
-//        iconStackView.addArrangedSubview(iconValueLabel)
-        iconStackView.addArrangedSubview(iconValueIcon)
-        
-        
-        
-        
-        feels_likeStackView.addArrangedSubview(feels_likeTitleLabel)
-        feels_likeStackView.addArrangedSubview(feels_likeValueLabel)
-        
-        humidityStackView.addArrangedSubview(humidityTitleLabel)
-        humidityStackView.addArrangedSubview(humidityValueLabel)
-        
-        tempMinMaxStackView.addArrangedSubview(label_4)
-        tempMinMaxStackView.addArrangedSubview(label_5)
-        
-        anotherFirstLineDetailStackView.addArrangedSubview(iconStackView)
-        anotherFirstLineDetailStackView.addArrangedSubview(feels_likeStackView)
-        anotherFirstLineDetailStackView.addArrangedSubview(humidityStackView)
-        
-        
-        
-        
-        iconStackView.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        iconStackView.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        
-        pressureStackView.addArrangedSubview(pressureTitleLabel)
-        pressureStackView.addArrangedSubview(pressureValueLabel)
-        
-        
-        speedStackView.addArrangedSubview(speedTitleLabel)
-        speedStackView.addArrangedSubview(speedValueLabel)
-        
-        visibilityStackView.addArrangedSubview(visibilityTitleLabel)
-        visibilityStackView.addArrangedSubview(visibilityValueLabel)
-        
-        anotherSecondLineDetailStackView.addArrangedSubview(pressureStackView)
-        anotherSecondLineDetailStackView.addArrangedSubview(speedStackView)
-        anotherSecondLineDetailStackView.addArrangedSubview(visibilityStackView)
-        
-        pressureStackView.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        pressureStackView.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        
-        anotherLineDetailStackView.addArrangedSubview(anotherFirstLineDetailStackView)
-        anotherLineDetailStackView.addArrangedSubview(anotherSecondLineDetailStackView)
-        
-//        anotherFirstLineDetailStackView.leftAnchor.constraint(equalTo: self.)
-        
-        
-        
-        
-        topTextStackView.addArrangedSubview(label_1)
-        topTextStackView.addArrangedSubview(label_2)
-        topTextStackView.addArrangedSubview(label_3)
-        topTextStackView.addArrangedSubview(tempMinMaxStackView)
-        
-        
-        
-        entireStackView.addArrangedSubview(topTextStackView)
-        entireStackView.addArrangedSubview(anotherLineDetailStackView)
-        
-//        topTextStackView.setContentHuggingPriority(.defaultLow, for: .vertical)
-//        anotherLineDetailStackView.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        
-        anotherLineDetailStackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20).isActive = true
-        anotherLineDetailStackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20).isActive = true
-        
-//        anotherFirstLineDetailStackView.topAnchor.constraint(equalTo: self.topTextStackView.bottomAnchor, constant: 100).isActive = true
-        
-        iconTitleLabel.leftAnchor.constraint(equalTo: self.iconStackView.leftAnchor, constant: 10).isActive = true
-        iconValueIcon.rightAnchor.constraint(equalTo: self.iconStackView.rightAnchor, constant: 4).isActive = true
-        
-        
-        feels_likeTitleLabel.leftAnchor.constraint(equalTo: self.feels_likeStackView.leftAnchor, constant: 10).isActive = true
-        feels_likeValueLabel.rightAnchor.constraint(equalTo: self.feels_likeStackView.rightAnchor, constant: -10).isActive = true
-        
-        humidityTitleLabel.leftAnchor.constraint(equalTo: self.humidityStackView.leftAnchor, constant: 10).isActive = true
-        humidityValueLabel.rightAnchor.constraint(equalTo: self.humidityStackView.rightAnchor, constant: -10).isActive = true
-        
-        pressureTitleLabel.leftAnchor.constraint(equalTo: self.pressureStackView.leftAnchor, constant: 10).isActive = true
-        pressureValueLabel.rightAnchor.constraint(equalTo: self.pressureStackView.rightAnchor, constant: -10).isActive = true
-        
-        speedTitleLabel.leftAnchor.constraint(equalTo: self.speedStackView.leftAnchor, constant: 10).isActive = true
-        speedValueLabel.rightAnchor.constraint(equalTo: self.speedStackView.rightAnchor, constant: -10).isActive = true
-        
-        visibilityTitleLabel.leftAnchor.constraint(equalTo: self.visibilityStackView.leftAnchor, constant: 10).isActive = true
-        visibilityValueLabel.rightAnchor.constraint(equalTo: self.visibilityStackView.rightAnchor, constant: -10).isActive = true
-        
-//        tempMinMaxStackView.topAnchor.constraint(equalTo: self.label_3.bottomAnchor).isActive = true
-        
-//        anotherLineDetailStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        
+
         NSLayoutConstraint.activate([
-//            topTextStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-//            topTextStackView.leftAnchor.constraint(equalTo: self.leftAnchor),
-//            topTextStackView.rightAnchor.constraint(equalTo: self.rightAnchor),
-//            anotherLineDetailStackView.topAnchor.constraint(equalTo: self.topTextStackView.bottomAnchor),
-//            anotherLineDetailStackView.heightAnchor.constraint(equalToConstant: self.frame.size.height)
-//            anotherLineDetailStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-//            self.addSubview(topTextStackView)
-//            self.addSubview(anotherLineDetailStackView)
+            iconTitleLabel.leftAnchor.constraint(equalTo: self.iconStackView.leftAnchor, constant: 10),
+            iconValueIcon.rightAnchor.constraint(equalTo: self.iconStackView.rightAnchor, constant: 4),
+            // 첫번째 스택뷰의 첫번째 요소에 width, height 값 지정해서 뒤에 요소들까지 같이 width, height 세팅
+            iconStackView.widthAnchor.constraint(equalToConstant: 150),
+            iconStackView.heightAnchor.constraint(equalToConstant: 150),
             
-//            entireStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-//            entireStackView.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor),
-//            entireStackView.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor),
-//            entireStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+            feels_likeTitleLabel.leftAnchor.constraint(equalTo: self.feels_likeStackView.leftAnchor, constant: 10),
+            feels_likeValueLabel.rightAnchor.constraint(equalTo: self.feels_likeStackView.rightAnchor, constant: -10),
             
+            humidityTitleLabel.leftAnchor.constraint(equalTo: self.humidityStackView.leftAnchor, constant: 10),
+            humidityValueLabel.rightAnchor.constraint(equalTo: self.humidityStackView.rightAnchor, constant: -10),
+            
+            pressureTitleLabel.leftAnchor.constraint(equalTo: self.pressureStackView.leftAnchor, constant: 10),
+            pressureValueLabel.rightAnchor.constraint(equalTo: self.pressureStackView.rightAnchor, constant: -10),
+            // 두번째 스택뷰의 첫번째 요소에 width, height 값 지정해서 뒤에 요소들까지 같이 width, height 세팅
+            pressureStackView.widthAnchor.constraint(equalToConstant: 150),
+            pressureStackView.heightAnchor.constraint(equalToConstant: 150),
+            
+            speedTitleLabel.leftAnchor.constraint(equalTo: self.speedStackView.leftAnchor, constant: 10),
+            speedValueLabel.rightAnchor.constraint(equalTo: self.speedStackView.rightAnchor, constant: -10),
+            
+            visibilityTitleLabel.leftAnchor.constraint(equalTo: self.visibilityStackView.leftAnchor, constant: 10),
+            visibilityValueLabel.rightAnchor.constraint(equalTo: self.visibilityStackView.rightAnchor, constant: -10),
+            
+            anotherLineDetailStackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20),
+            anotherLineDetailStackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20),
             
             entireStackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             entireStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
@@ -440,4 +316,97 @@ class DetailView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: func
+    func setCityData() {
+        // 도시이름
+        koreaCityNameLabel.text = String(describing: CityKoreaListDic.filter {$0.keys.contains(detailCityWeatherModel!.name)}.first!.first!.value)
+        
+        // 현재온도
+        let intTemperatureValue = Int(detailCityWeatherModel!.main.temp)
+        tempLabel.text = "\(String(describing: intTemperatureValue))°"
+        
+        // 날씨설명
+        descriptionLabel.text = detailCityWeatherModel?.weather[0].description
+        
+        // 최고, 최저기온
+        let intTemperatureMaxValue = Int(detailCityWeatherModel!.main.temp_max)
+        temp_maxLabel.text = "최고:\(String(describing: intTemperatureMaxValue))°"
+        let intTemperatureMinValue = Int(detailCityWeatherModel!.main.temp_min)
+        temp_minLabel.text = "최저:\(String(describing: intTemperatureMinValue))°"
+        
+        // 아이콘
+        let url = "https://openweathermap.org/img/wn/\(detailCityWeatherModel!.weather[0].icon).png"
+        let cacheKey = String(describing: url) // 캐시에 사용될 Key 값
+        let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey as NSString)
+        iconValueIcon.image = cachedImage
+        
+        // 체감기온
+        let intFeels_likeValue = Int(detailCityWeatherModel!.main.feels_like)
+        feels_likeValueLabel.text = "\(String(describing: intFeels_likeValue))°"
+        
+        // 현재습도
+        let intHumidityValue = Int(detailCityWeatherModel!.main.humidity)
+        humidityValueLabel.text = "\(String(describing: intHumidityValue))%"
+        
+        // 기압
+        let intPressureValue = Int(detailCityWeatherModel!.main.pressure)
+        pressureValueLabel.text = "\(String(describing: intPressureValue))"
+        
+        // 풍속
+        let intSpeedValue = Int(detailCityWeatherModel!.wind.speed)
+        speedValueLabel.text = "\(String(describing: intSpeedValue))"
+        
+        // 시정
+        let intVisibilityValue = Int(detailCityWeatherModel!.visibility)
+        visibilityValueLabel.text = "\(String(describing: intVisibilityValue))"
+    }
+    
+    func setAddArrangedSubview() {
+        // 최고 + 최저기온
+        tempMinMaxStackView.addArrangedSubview(temp_maxLabel)
+        tempMinMaxStackView.addArrangedSubview(temp_minLabel)
+        
+        // 도시정보
+        topTextStackView.addArrangedSubview(koreaCityNameLabel)
+        topTextStackView.addArrangedSubview(tempLabel)
+        topTextStackView.addArrangedSubview(descriptionLabel)
+        topTextStackView.addArrangedSubview(tempMinMaxStackView)
+        
+        // 아이콘
+        iconStackView.addArrangedSubview(iconTitleLabel)
+        iconStackView.addArrangedSubview(iconValueIcon)
+        // 체감기온
+        feels_likeStackView.addArrangedSubview(feels_likeTitleLabel)
+        feels_likeStackView.addArrangedSubview(feels_likeValueLabel)
+        // 현재습도
+        humidityStackView.addArrangedSubview(humidityTitleLabel)
+        humidityStackView.addArrangedSubview(humidityValueLabel)
+        // 아이콘 + 체감기온 + 현재습도
+        anotherFirstLineDetailStackView.addArrangedSubview(iconStackView)
+        anotherFirstLineDetailStackView.addArrangedSubview(feels_likeStackView)
+        anotherFirstLineDetailStackView.addArrangedSubview(humidityStackView)
+        
+        // 기압
+        pressureStackView.addArrangedSubview(pressureTitleLabel)
+        pressureStackView.addArrangedSubview(pressureValueLabel)
+        // 풍속
+        speedStackView.addArrangedSubview(speedTitleLabel)
+        speedStackView.addArrangedSubview(speedValueLabel)
+        // 시정
+        visibilityStackView.addArrangedSubview(visibilityTitleLabel)
+        visibilityStackView.addArrangedSubview(visibilityValueLabel)
+        // 기압 + 풍속 + 시정
+        anotherSecondLineDetailStackView.addArrangedSubview(pressureStackView)
+        anotherSecondLineDetailStackView.addArrangedSubview(speedStackView)
+        anotherSecondLineDetailStackView.addArrangedSubview(visibilityStackView)
+        
+        anotherLineDetailStackView.addArrangedSubview(anotherFirstLineDetailStackView)
+        anotherLineDetailStackView.addArrangedSubview(anotherSecondLineDetailStackView)
+    
+        entireStackView.addArrangedSubview(topTextStackView)
+        entireStackView.addArrangedSubview(anotherLineDetailStackView)
+
+    }
+
 }
