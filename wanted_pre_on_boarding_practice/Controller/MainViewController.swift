@@ -7,24 +7,6 @@
 
 import UIKit
 
-//private var sceneView: SKView?
-//private var snowScene: SnowScene?
-
-//lazy var snowView: SKView = {
-//    let view = SKView()
-//    view.backgroundColor = .clear
-//    let scene = SnowScene()
-//    view.presentScene(scene)
-//    return view
-//}()
-
-//        view.addSubview(snowView)
-//        snowView.translatesAutoresizingMaskIntoConstraints = false
-//        snowView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-//        snowView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-//        snowView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-//        snowView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-
 class MainViewController: UIViewController  {
     
     var sendWeatherModelDelegate: SendWeatherModelDelegate?

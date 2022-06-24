@@ -6,10 +6,9 @@
 //
 
 import Foundation
-
-// MARK: SpriteKit
 import SpriteKit
 
+// MARK: SpriteKit
 class SnowScene: SKScene {
     
     override func didMove(to view: SKView) {

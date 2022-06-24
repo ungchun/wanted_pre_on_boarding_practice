@@ -15,24 +15,7 @@ class ImageCacheManager {
     private init() {}
 }
 
-
 class MainCollectionViewCell: UICollectionViewCell {
-    
-    lazy var snowView: SKView = {
-        let view = SKView()
-        view.backgroundColor = .clear
-        let scene = SnowScene()
-        view.presentScene(scene)
-        return view
-    }()
-    
-    lazy var rainView: SKView = {
-        let view = SKView()
-        view.backgroundColor = .clear
-        let scene = RainScene()
-        view.presentScene(scene)
-        return view
-    }()
     
     let activityIndicatorView =  UIActivityIndicatorView(style: .medium) // API 값 불러오는 동안 보이는 loadingView
     
@@ -58,6 +41,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         
         iconImage.setImageUrl(url) // 캐시 이미지 set
         
+        // cell backgroundImage
         if iconImage.image != nil {
             // 흐림
             if weatherModel!.weather.first!.main.contains("Clouds") {
@@ -133,6 +117,22 @@ class MainCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: UI
+    lazy var snowView: SKView = {
+        let view = SKView()
+        view.backgroundColor = .clear
+        let scene = SnowScene()
+        view.presentScene(scene)
+        return view
+    }()
+    
+    lazy var rainView: SKView = {
+        let view = SKView()
+        view.backgroundColor = .clear
+        let scene = RainScene()
+        view.presentScene(scene)
+        return view
+    }()
+    
     private lazy var cityName: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false

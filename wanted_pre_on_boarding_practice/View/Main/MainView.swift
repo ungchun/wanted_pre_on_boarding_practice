@@ -101,19 +101,6 @@ extension MainView: UICollectionViewDataSource {
             if let cell = cell as? MainCollectionViewCell {
                 cell.weatherModel = weatherModelList[indexPath.item]
             }
-//            if weatherModelList[indexPath.item].weather.first!.main.contains("Clouds") {
-//                // 이렇게 쓰면 cell 에 눈 오긴 옴 -> 근데 스크롤할때 마다 이상해지고 전부 다 적용은 안됨 -> 처리해보기
-//                cell.addSubview(snowView)
-//                snowView.translatesAutoresizingMaskIntoConstraints = false
-//                snowView.topAnchor.constraint(equalTo: cell.topAnchor).isActive = true
-//                snowView.bottomAnchor.constraint(equalTo: cell.bottomAnchor).isActive = true
-//                snowView.leftAnchor.constraint(equalTo: cell.leftAnchor).isActive = true
-//                snowView.rightAnchor.constraint(equalTo: cell.rightAnchor).isActive = true
-//                cell.backgroundView = UIImageView(image: UIImage(named: "cloud.jpg"))
-//            } else {
-//    //            dataSource[indexPath.item].weather[0].main.contains("Clear")
-//                cell.backgroundView = UIImageView(image: UIImage(named: "sun.jpg"))
-//            }
         }
         return cell
     }

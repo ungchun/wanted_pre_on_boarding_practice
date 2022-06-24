@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// 숨긴 API KEY 받기
 extension Bundle {
     
     // 생성한 .plist 파일 경로 불러오기
@@ -26,6 +27,7 @@ extension Bundle {
 }
 
 extension UIImageView {
+    // 이미지 캐시
     func setImageUrl(_ url: String) {
         let cacheKey = NSString(string: url) // 캐시에 사용될 Key 값
         

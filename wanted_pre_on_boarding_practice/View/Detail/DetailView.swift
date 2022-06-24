@@ -13,6 +13,7 @@ class DetailView: UIView {
     
     var detailCityWeatherModel: WeatherModel?
     
+    // MARK: UI
     lazy var snowView: SKView = {
         let view = SKView()
         view.backgroundColor = .clear
@@ -28,8 +29,7 @@ class DetailView: UIView {
         view.presentScene(scene)
         return view
     }()
-
-    // MARK: UI
+    
     // 도시이름, 현재온도, 설명, 최고, 최저기온
     private let koreaCityNameLabel: UILabel = {
         let label = UILabel()
@@ -95,7 +95,7 @@ class DetailView: UIView {
         stackView.axis = .vertical
         return stackView
     }()
-
+    
     // 아이콘 title + value + 스택 뷰
     private let iconTitleLabel: UILabel = {
         let label = UILabel()
@@ -109,10 +109,11 @@ class DetailView: UIView {
     private let iconValueIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     private let iconStackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = 0
@@ -142,7 +143,7 @@ class DetailView: UIView {
         return label
     }()
     private let feels_likeStackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -171,7 +172,7 @@ class DetailView: UIView {
         return label
     }()
     private let humidityStackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -200,7 +201,7 @@ class DetailView: UIView {
         return label
     }()
     private let pressureStackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -229,7 +230,7 @@ class DetailView: UIView {
         return label
     }()
     private let speedStackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -258,7 +259,7 @@ class DetailView: UIView {
         return label
     }()
     private let visibilityStackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -307,7 +308,7 @@ class DetailView: UIView {
         stackView.axis = .vertical
         return stackView
     }()
-
+    
     // MARK: init
     required init(frame: CGRect, detailCityWeatherModel: WeatherModel) {
         super.init(frame: frame)
@@ -318,10 +319,11 @@ class DetailView: UIView {
         setAddArrangedSubview()
         
         self.addSubview(entireStackView)
-
+        
+        // autolayout
         NSLayoutConstraint.activate([
             iconTitleLabel.leftAnchor.constraint(equalTo: self.iconStackView.leftAnchor, constant: 10),
-            iconValueIcon.rightAnchor.constraint(equalTo: self.iconStackView.rightAnchor, constant: 4),
+            iconValueIcon.rightAnchor.constraint(equalTo: self.iconStackView.rightAnchor, constant: 20),
             // 첫번째 스택뷰의 첫번째 요소에 width, height 값 지정해서 뒤에 요소들까지 같이 width, height 세팅
             iconStackView.widthAnchor.constraint(equalToConstant: 150),
             iconStackView.heightAnchor.constraint(equalToConstant: 150),
@@ -382,6 +384,12 @@ class DetailView: UIView {
             let imageView = bringBackgroundImage("Clouds")
             self.addSubview(imageView)
             self.sendSubviewToBack(imageView)
+            self.addSubview(snowView)
+            snowView.translatesAutoresizingMaskIntoConstraints = false
+            snowView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+            snowView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+            snowView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+            snowView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         }
         // 눈
         else if detailCityWeatherModel!.weather.first!.main.contains("Snow") {
@@ -401,7 +409,7 @@ class DetailView: UIView {
             let imageView = bringBackgroundImage("Clouds")
             self.addSubview(imageView)
             self.sendSubviewToBack(imageView)
-
+            
             self.addSubview(rainView)
             rainView.translatesAutoresizingMaskIntoConstraints = false
             rainView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
@@ -427,7 +435,7 @@ class DetailView: UIView {
         tempLabel.text = "\(String(describing: intTemperatureValue))°"
         
         // 날씨설명
-        descriptionLabel.text = detailCityWeatherModel?.weather[0].description
+        descriptionLabel.text = String(describing: DescriptionListDic.filter {$0.values.contains((detailCityWeatherModel!.weather[0].description))}.first!.first!.key)
         
         // 최고, 최저기온
         let intTemperatureMaxValue = Int(detailCityWeatherModel!.main.temp_max)
@@ -503,10 +511,10 @@ class DetailView: UIView {
         
         anotherLineDetailStackView.addArrangedSubview(anotherFirstLineDetailStackView)
         anotherLineDetailStackView.addArrangedSubview(anotherSecondLineDetailStackView)
-    
+        
         entireStackView.addArrangedSubview(topTextStackView)
         entireStackView.addArrangedSubview(anotherLineDetailStackView)
-
+        
     }
-
+    
 }
