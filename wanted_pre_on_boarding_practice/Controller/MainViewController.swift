@@ -24,15 +24,32 @@ class MainViewController: UIViewController  {
         
         setupView()
         setNavigationBarTitle()
-        
     }
     
     // MARK: func
     fileprivate func setupView() {
         let mainView = MainView(frame: self.view.frame)
-        self.mainView = mainView
         mainView.cellTapAction = navigationDetailView(_:)
         self.view.addSubview(mainView)
+        
+        // API 통해서 city weather 값 가져옴
+        for cityName in CityList {
+            //main thread에서 load할 경우 URL 로딩이 길면 화면이 멈춘다.
+            //이를 방지하기 위해 다른 thread에서 처리함.
+            DispatchQueue.global(qos: .background).async {
+                WeatherService(cityName: cityName).getWeather { result in
+                    switch result {
+                    case .success(let weatherValue):
+                        DispatchQueue.main.async {
+                            mainView.weatherModelList += [weatherValue]
+                            mainView.collectionView.reloadData()
+                        }
+                    case .failure(let networkError):
+                        print("\(networkError)")
+                    }
+                }
+            }
+        }
     }
     
     fileprivate func setNavigationBarTitle() {

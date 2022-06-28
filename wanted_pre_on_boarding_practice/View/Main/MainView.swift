@@ -12,38 +12,13 @@ import SpriteKit
 let cellID = "Cell"
 
 class MainView: UIView {
-    
-    lazy var snowView: SKView = {
-        let view = SKView()
-        view.backgroundColor = .clear
-        let scene = SnowScene()
-        view.presentScene(scene)
-        return view
-    }()
-    
+
     var weatherModelList: [WeatherModel] = []
     var cellTapAction: ((_ weatherModel: WeatherModel) -> Void)?
 
     // MARK: init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        for cityName in CityList {
-            //main thread에서 load할 경우 URL 로딩이 길면 화면이 멈춘다.
-            //이를 방지하기 위해 다른 thread에서 처리함.
-            DispatchQueue.global(qos: .background).async {
-                WeatherService(cityName: cityName).getWeather { result in
-                    switch result {
-                    case .success(let weatherValue):
-                        DispatchQueue.main.async {
-                            self.weatherModelList += [weatherValue]
-                            self.collectionView.reloadData()
-                        }
-                    case .failure(let networkError):
-                        print("\(networkError)")
-                    }
-                }
-            }
-        }
         setup()
     }
     
@@ -52,7 +27,7 @@ class MainView: UIView {
     }
     
     // MARK: UI
-    private lazy var collectionView: UICollectionView = {
+    lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSize(width: UIScreen.main.bounds.width-20, height: 120)
         flowLayout.minimumLineSpacing = 10

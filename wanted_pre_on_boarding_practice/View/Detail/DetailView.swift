@@ -21,7 +21,7 @@ class DetailView: UIView {
         view.presentScene(scene)
         return view
     }()
-    
+
     lazy var rainView: SKView = {
         let view = SKView()
         view.backgroundColor = .clear
