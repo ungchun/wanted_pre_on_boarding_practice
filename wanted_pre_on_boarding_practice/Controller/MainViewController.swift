@@ -7,9 +7,9 @@
 
 import UIKit
 
+
+
 class MainViewController: UIViewController  {
-    
-    var sendWeatherModelDelegate: SendWeatherModelDelegate?
     
     private var mainView: MainView!
     
@@ -66,7 +66,7 @@ class MainViewController: UIViewController  {
     
     fileprivate func navigationDetailView(_ weatherModel: WeatherModel) {
         let detailVC = DetailViewController()
-        detailVC.sendModel(weatherModel: weatherModel) // 델리게이트로 도시정보 전달
+        detailVC.receivedModel(weatherModel: weatherModel)
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }
